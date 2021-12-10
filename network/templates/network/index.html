@@ -1,0 +1,63 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div id="newPost" class="form-class newPost">
+        <h3>New Post</h3>
+        <form>
+            {% csrf_token %}
+            <textarea id="newPostContent" class="form-control" rows="3"></textarea>
+            <button id="newPostBtn" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+    {% endif %}
+    <div id="profile-section"></div>
+    <div id="post-section">
+    <!--
+        {% for post in posts %}
+        <div class="post">
+            <h4><a href="/profile/{{post.poster.username}}">{{post.poster}}</a></h5>
+            {% if request.user == post.poster %}
+                <button id="{{post.id}}editBtn" onclick="editfn({{post.id}})" class="btn btn-primary editBtn">edit</button>
+            {% endif %}
+
+            <div  id="{{post.id}}content" class="postContent">
+                <p>{{post.content}}</p>
+            </div>
+
+            <div id="{{post.id}}editor" class="postEditor" hidden>
+                <form action="edit/{{post.id}}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="postid" value="{{post.id}}">
+                    <textarea name="{{post.id}}editedContent" class="form-control" rows="4">{{post.content}}</textarea>
+                    <button type="submit" id="editedBtn" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+            <div class="timestamp">{{post.timestamp}}</div>
+            {% if user.is_authenticated %}
+            <div id="likePost"><a href="">Heart</a>  {{post.num_likes}}</div>
+            
+        
+            {% else %}
+                <div><a href="{% url 'login' %}">Log In</a> or <a href="{% url 'register' %}">Register</a> to like or comment on posts.</div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    -->    
+    </div>
+    {% if user.is_authenticated %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" id="previous-nav"><a class="page-link" id="previous-nav-link">Previous</a></li>
+            
+            <li class="page-item active"><a class="page-link" id="current-nav-link">1</a></li>
+           
+            <li class="page-item" id="next-nav"><a class="page-link" id="next-nav-link">Next</a></li>
+        </ul>
+    </nav>
+    {% endif%}
+{% endblock %}

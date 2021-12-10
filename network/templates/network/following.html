@@ -1,0 +1,29 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h2>Following</h2>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <div id="post-section">
+        {% for post in posts %}
+        <div class="post">
+            <h4><a href="profile/{{post.poster.username}}">{{post.poster}}</a></h5>
+            <a href="">edit</a>
+            <p>{{post.content}}</p>
+            <div class="timestamp">{{post.timestamp}}</div>
+            <div id="likePost"><a href="">Heart</a>  {{post.num_likes}}</div>
+            <!--<div><a href="">comment</a></div>-->
+        </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item {% if page_num <= 1 %}disabled{% endif %}"><a class="page-link" href="?page={{ previous_page }}">Previous</a></li>
+            {% for page in page_range %}
+                <li class="page-item {% if page == page_num %}active{% endif %} "><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+            <li class="page-item {% if next_page not in page_range %}disabled{% endif %}"><a class="page-link" href="?page={{ next_page }}">Next</a></li>
+        </ul>
+    </nav>
+{% endblock %}

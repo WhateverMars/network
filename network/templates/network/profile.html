@@ -1,0 +1,49 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <h2>{{profile.username}}</h2>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <div>Followers: {{profile.followers.count}}</div>
+    <div>Following: {{profile.following.count}}</div>
+    {% if user.is_authenticated and request.user != profile %}
+
+        <form action="{% url 'follow' %}" method="get">
+            <input type="hidden" name ='profile' value="{{profile}}">
+            {% if request.user in profile.followers.all %}
+                <button type="submit" class="btn btn-primary">Unfollow</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Follow</button>
+            {% endif %}
+        </form>
+        
+    {% endif %}
+    <div id="post-section">
+        {% for post in posts %}
+        <div class="post">
+            <h4>{{post.poster}}</h5>
+                {% if request.user == post.poster %}
+                <a href="">edit</a>
+                {% endif %}
+                <p>{{post.content}}</p>
+                <div class="timestamp">{{post.timestamp}}</div>
+                {% if user.is_authenticated %}
+                <div id="likePost"><a href="">Heart</a>  {{post.num_likes}}</div>
+                <!--<div><a href="">comment</a></div>-->
+                {% else %}
+                    <div><a href="{% url 'login' %}">Log In</a> or <a href="{% url 'register' %}">Register</a> to like or comment on posts.</div>
+                {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item {% if page_num <= 1 %}disabled{% endif %}"><a class="page-link" href="?page={{ previous_page }}">Previous</a></li>
+            {% for page in page_range %}
+                <li class="page-item {% if page == page_num %}active{% endif %} "><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+            <li class="page-item {% if next_page not in page_range %}disabled{% endif %}"><a class="page-link" href="?page={{ next_page }}">Next</a></li>
+        </ul>
+    </nav>
+{% endblock %}
